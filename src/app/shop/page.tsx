@@ -14,7 +14,7 @@ export default function ShopPage() {
     ];
 
     return (
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-12 md:gap-24 selection:bg-cyber-pink selection:text-white">
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-8 md:gap-24 selection:bg-cyber-pink selection:text-white">
 
             <header className="flex flex-col items-center text-center gap-6 pt-24">
                 <div className="inline-flex items-center gap-3 bg-pixel-gray border-4 border-black px-6 py-2 shadow-pixel-sm mb-4">

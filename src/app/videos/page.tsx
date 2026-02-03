@@ -9,7 +9,7 @@ export default async function VideosPage() {
     const youtubeVideos = await fetchLatestVideos(CHANNEL_ID);
     const videos = youtubeVideos.map((vid, i) => ({
         title: vid.title,
-        category: "TECH",
+        category: "TECH & SCIENCE",
         thumb: vid.thumbnail,
         views: formatViews(vid.views),
         date: formatRelativeDate(vid.published),
@@ -18,18 +18,16 @@ export default async function VideosPage() {
     }));
 
     return (
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-12 md:gap-20 selection:bg-neon-green selection:text-black">
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-8 md:gap-20 selection:bg-neon-green selection:text-black">
 
-            <header className="grid grid-cols-12 pt-40 gap-6 items-end border-b-4 border-white/5 pb-12">
-                <div className="col-span-12 md:col-span-8">
-                    <GlitchText text="VIDEO_ARCHIVE" as="h1" className="text-fluid-2xl tracking-tighter" />
-                    <p className="text-gray-500 mt-4 text-[10px] md:text-sm tracking-[0.3em] uppercase max-w-xl">
-                        Real-time data sync from @vinconium sector.
-                    </p>
-                </div>
+            <header className="flex flex-col items-center md:items-start pt-28 md:pt-48 border-b-4 border-white/5 pb-10 gap-4">
+                <GlitchText text="VIDEO_ARCHIVE" as="h1" className="text-fluid-2xl tracking-tighter text-center md:text-left mx-auto md:mx-0" />
+                <p className="text-gray-500 text-[10px] md:text-sm tracking-[0.3em] uppercase max-w-xl text-center md:text-left">
+                    Real-time data sync from @vinconium sector.
+                </p>
             </header>
 
-            <section className="grid grid-cols-12 gap-8 md:gap-10">
+            <section className="grid grid-cols-12 gap-4 md:gap-10">
                 {videos.length === 0 && (
                     <div className="col-span-12 py-20 text-center border-4 border-dashed border-white/10">
                         <p className="text-gray-500 font-bold uppercase tracking-widest">Signal Lost... Reconnecting to YouTube Feed</p>
@@ -57,22 +55,22 @@ export default async function VideosPage() {
                                     SYNCHRONIZED
                                 </div>
 
-                                <div className="absolute top-4 left-4 flex gap-2">
-                                    <span className="text-[8px] font-bold px-2 py-1 bg-black text-white border border-white/20 whitespace-nowrap uppercase tracking-widest shadow-pixel-sm">
+                                <div className="absolute top-2 left-2 flex gap-2">
+                                    <span className="text-[7px] sm:text-[8px] font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 bg-black text-white border border-white/20 whitespace-nowrap uppercase tracking-widest shadow-pixel-sm">
                                         {vid.rarity}
                                     </span>
                                 </div>
                             </div>
 
-                            <div className="p-4 md:p-6 flex-1 flex flex-col">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div className="flex flex-col gap-1">
-                                        <span className="text-[10px] md:text-xs text-cyber-pink font-bold tracking-[0.2em]">{vid.category}</span>
-                                        <h3 className="text-sm md:text-fluid-lg text-white group-hover:text-retro-yellow transition-colors leading-none truncate max-w-[200px] lg:max-w-none">
+                            <div className="p-3 sm:p-4 md:p-6 flex-1 flex flex-col">
+                                <div className="flex flex-col md:flex-row justify-between items-center md:items-start mb-3 sm:mb-4 gap-2">
+                                    <div className="flex flex-col items-center md:items-start gap-1">
+                                        <span className="text-[9px] md:text-xs text-cyber-pink font-bold tracking-[0.2em]">{vid.category}</span>
+                                        <h3 className="text-xs md:text-fluid-lg text-white group-hover:text-retro-yellow transition-colors leading-tight text-center md:text-left break-words line-clamp-2">
                                             {vid.title}
                                         </h3>
                                     </div>
-                                    <span className="text-[8px] md:text-[10px] text-gray-500 font-mono mt-1 shrink-0">{vid.date}</span>
+                                    <span className="text-[7px] md:text-[10px] text-gray-500 font-mono shrink-0">{vid.date}</span>
                                 </div>
 
                                 {i % 3 === 0 && (
@@ -81,9 +79,9 @@ export default async function VideosPage() {
                                     </p>
                                 )}
 
-                                <div className="mt-auto flex flex-col xl:flex-row justify-between xl:items-center pt-6 border-t border-white/5 gap-4">
+                                <div className="mt-auto flex flex-col xl:flex-row justify-between xl:items-center pt-4 sm:pt-6 border-t border-white/5 gap-3 sm:gap-4">
                                     <div className="flex gap-4 items-center overflow-hidden">
-                                        <span className="text-[10px] text-gray-500 whitespace-nowrap uppercase tracking-widest">{vid.views} DECIDED</span>
+                                        <span className="text-[8px] md:text-[10px] text-gray-500 whitespace-nowrap uppercase tracking-widest">{vid.views} DECIDED</span>
                                         <div className="h-1 w-16 bg-white/5 rounded-full hidden sm:block">
                                             <div className="h-full bg-neon-green/30 w-3/4"></div>
                                         </div>
@@ -94,7 +92,7 @@ export default async function VideosPage() {
                                         rel="noopener noreferrer"
                                         className="w-full xl:w-auto"
                                     >
-                                        <PixelButton variant="neon" className="px-4 py-2 whitespace-nowrap text-[10px] w-full">
+                                        <PixelButton variant="neon" className="px-4 py-2 whitespace-nowrap text-[8px] sm:text-[10px] w-full">
                                             INITIALIZE_STREAM
                                         </PixelButton>
                                     </a>

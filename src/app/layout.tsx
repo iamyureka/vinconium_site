@@ -28,9 +28,9 @@ export default async function RootLayout({
   const stats = await fetchChannelStats("UCmOnc4ziXeC9zH7KdiRUg9Q");
 
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth overflow-x-hidden">
       <body
-        className={`${pressStart2P.variable} antialiased bg-deep-space text-white font-pixel relative min-h-screen`}
+        className={`${pressStart2P.variable} antialiased bg-deep-space text-white font-pixel relative min-h-screen overflow-x-hidden`}
       >
         <div className="crt-overlay"></div>
         <div className="crt-flicker fixed inset-0 pointer-events-none z-[9998] opacity-10"></div>
