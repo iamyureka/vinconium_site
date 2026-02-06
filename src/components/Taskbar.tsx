@@ -19,16 +19,16 @@ export function Taskbar() {
 
     return (
         <>
-            <div className="fixed bottom-0 left-0 right-0 z-[60] p-2 md:p-4 pointer-events-none">
+            <div className="fixed top-0 left-0 right-0 z-[60] p-2 md:p-4 pointer-events-none">
                 <div className="flex justify-center w-full max-w-4xl mx-auto pointer-events-auto">
 
                     {isMenuOpen && (
-                        <div className="absolute bottom-16 left-4 right-4 md:left-auto md:right-auto md:w-64 bg-pixel-gray border-[length:var(--border-width)] border-black shadow-pixel-lg p-2 animate-in slide-in-from-bottom-4 duration-200">
+                        <div className="absolute top-21 left-4 right-4 md:left-auto md:right-auto md:w-64 bg-pixel-gray border-[length:var(--border-width)] border-black shadow-pixel-lg p-2 animate-in slide-in-from-top-4 duration-200">
                             <div className="bg-black text-white p-2 text-[10px] mb-2 font-bold flex justify-between border-b-[length:var(--border-width)] border-white/10">
                                 <span>VINCO_OS MENU</span>
                                 <button onClick={() => setIsMenuOpen(false)}>X</button>
                             </div>
-                            <div className="flex flex-col gap-1">
+                            <div className="flex flex-col gap-1 ">
                                 {navItems.map((item) => (
                                     <Link
                                         key={item.href}
@@ -63,15 +63,15 @@ export function Taskbar() {
               bg-neon-green text-black px-3 md:px-4 py-1.5 md:py-2 
               font-bold text-[10px] md:text-sm shadow-pixel-sm border-[length:var(--border-width)] border-black 
               active:translate-y-[2px] active:shadow-none transition-all
-              flex items-center gap-2 shrink-0
+              flex items-center gap-2 shrink-0 sm:hidden
               ${isMenuOpen ? 'bg-white shadow-none translate-y-[2px]' : ''}
             `}
                         >
                             <span className="text-lg leading-none">❖</span>
-                            <span className="hidden sm:inline">START_OS</span>
+                            <span>START_OS</span>
                         </button>
 
-                        <div className="hidden sm:flex gap-1 md:gap-2 h-full border-l-[length:var(--border-width)] border-black/20 pl-2 md:pl-4">
+                        <div className="hidden sm:flex gap-1 md:gap-2 h-full">
                             {navItems.map((item) => {
                                 const isActive = pathname === item.href;
                                 const colorClass = item.color === 'neon' ? 'hover:bg-neon-green' :
@@ -86,7 +86,7 @@ export function Taskbar() {
                     px-3 md:px-6 py-1.5 md:py-2
                     border-[length:var(--border-width)] border-black
                     text-[10px] md:text-xs font-bold tracking-[0.1em]
-                    transition-all duration-200
+                    transition-all duration-200 whitespace-nowrap
                     flex items-center gap-2
                     ${isActive ? 'bg-white text-black translate-y-[2px] shadow-none' : 'bg-black text-white ' + colorClass + ' hover:text-black shadow-pixel-sm'}
                   `}

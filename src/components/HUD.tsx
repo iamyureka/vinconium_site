@@ -17,7 +17,7 @@ export function HUD({ stats }: { stats?: { subscribers: string, totalViews: stri
     }, []);
 
     return (
-        <div className={`fixed top-0 left-0 right-0 z-50 p-2 md:p-4 transition-all duration-300 pointer-events-none border-b-[length:var(--border-width)] ${isScrolled
+        <div className={`fixed bottom-0 left-0 right-0 z-50 p-2 md:p-4 transition-all duration-300 pointer-events-none border-t-[length:var(--border-width)] ${isScrolled
             ? 'bg-background/90 backdrop-blur-sm border-white/5 shadow-lg'
             : 'bg-transparent border-transparent'
             }`}>

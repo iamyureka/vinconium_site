@@ -35,11 +35,11 @@ export default async function RootLayout({
         <div className="crt-overlay"></div>
         <div className="crt-flicker fixed inset-0 pointer-events-none z-[9998] opacity-10"></div>
 
-        <HUD stats={stats} />
-        <div className="pb-32">
+        <Taskbar />
+        <div className="pt-32 pb-32">
           {children}
         </div>
-        <Taskbar />
+        <HUD stats={stats} />
       </body>
     </html>
   );
