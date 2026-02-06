@@ -24,9 +24,16 @@ export interface SystemInfo {
     theme: string;
 }
 
-export type ActionType = 'OUTPUT' | 'CLEAR' | 'THEME' | 'EXIT' | 'PING';
+export type ActionType = 'OUTPUT' | 'CLEAR' | 'THEME' | 'EXIT' | 'PING' | 'SSH_CONNECT' | 'EASTER_EGG';
 
 export interface CommandResult {
     type: ActionType;
-    value?: string[] | string;
+    value?: string[] | string | any;
+}
+
+export interface SSHSessionInfo {
+    id: string;
+    user: string;
+    host: string;
+    isSecure: boolean;
 }

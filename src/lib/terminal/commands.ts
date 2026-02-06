@@ -5,9 +5,14 @@ import { pingHost } from '../network';
 export async function executeCommand(
     fullCmd: string,
     currentTheme: ThemeName,
-    isValidTheme: (name: string) => boolean
+    isValidTheme: (name: string) => boolean,
+    sysContext?: { os: string; browser: string; cpu?: string; device?: string; resolution: string }
 ): Promise<CommandResult> {
     const [baseCmd, ...args] = fullCmd.toLowerCase().split(' ');
+
+    if (fullCmd.toLowerCase() === 'vinco ganteng') {
+        return { type: 'EASTER_EGG' };
+    }
 
     switch (baseCmd) {
         case 'help':
@@ -20,6 +25,7 @@ export async function executeCommand(
                     '  ping <host>      - Real network ping',
                     '  theme <name>     - Change theme (matrix, neon, amber, ghost)',
                     '  sysinfo          - Display system statistics',
+                    '  ssh <user@host>  - Connect to a remote server',
                     '  clear            - Clear terminal screen',
                     '  exit             - Close terminal',
                 ]
@@ -59,15 +65,14 @@ export async function executeCommand(
 
         case 'sysinfo':
             const info = [
-                'vinco@vinconium-os',
+                `vinco@${(sysContext?.browser || 'browser').toLowerCase().replace(/\s/g, '-')}`,
                 '------------------',
-                'OS: Vinconium_OS 1.0.0-stable',
-                'Host: Sector_Lab_7',
-                'Kernel: 5.15.0-vinc-x64',
-                'Uptime: 4d 2h 15m',
-                'CPU: Transmuter-V9 Quantum',
-                'GPU: Neural-Core RX-Pixel',
-                'Memory: 7842MiB / 65536MiB',
+                `OS: ${sysContext?.os || 'Unknown OS'}`,
+                `Host: ${sysContext?.device || 'Web_Environment'}`,
+                `Browser: ${sysContext?.browser || 'Unknown'}`,
+                `Resolution: ${sysContext?.resolution || 'Unknown'}`,
+                `CPU: ${sysContext?.cpu || 'Web-Virtualized'}`,
+                `Memory: Private_Heap_Allocated`,
                 `Theme: ${currentTheme.toUpperCase()}`,
             ];
 
@@ -81,6 +86,20 @@ export async function executeCommand(
             neofetch.push('');
             neofetch.push(' '.repeat(NEOFETCH_LOGO[0].length + 2) + COLORS_PALETTE);
             return { type: 'OUTPUT', value: neofetch };
+
+        case 'ssh':
+            const target = args[0];
+            if (!target || !target.includes('@')) {
+                return {
+                    type: 'OUTPUT',
+                    value: ['USAGE: ssh user@host', 'EXAMPLE: ssh root@127.0.0.1']
+                };
+            }
+            const [user, hostName] = target.split('@');
+            return {
+                type: 'SSH_CONNECT',
+                value: { user, host: hostName }
+            };
 
         case 'echo':
             return { type: 'OUTPUT', value: [args.join(' ') || ' '] };
