@@ -7,41 +7,40 @@ import Image from "next/image";
 import { WalletButton } from "@/components/WalletButton";
 import { useWriteContract, useWaitForTransactionReceipt, useAccount } from 'wagmi';
 import { parseEther } from 'viem';
-import React from "react";
 
 export default function ShopPage() {
     const { isConnected } = useAccount();
     const IPFS_BASE = "https://green-acute-bison-742.mypinata.cloud/ipfs/bafybeibosdxv6nwgrfkswczbff6ppelcoh6sv37gctg7qyrjbrqd2doani";
     const items = [
-        { id: 1, name: "CHRONOS_DESK_MAT", price: "0.1", type: "UPGRADE", thumb: `${IPFS_BASE}/1.png`, rarity: "COMMON", stats: "+2 STYLE", supply: 100 },
-        { id: 2, name: "DECRYPTION_TEE", price: "0.2", type: "EQUIPMENT", thumb: `${IPFS_BASE}/2.png`, rarity: "RARE", stats: "+8 INT", supply: 50 },
-        { id: 3, name: "NEBULAX_HOODIE", price: "0.5", type: "EQUIPMENT", thumb: `${IPFS_BASE}/3.png`, rarity: "LEGENDARY", stats: "+15 SCIENCE", supply: 25 },
-        { id: 4, name: "VINCO_OS_USB", price: "1.0", type: "DATA", thumb: `${IPFS_BASE}/4.png`, rarity: "UNCOMMON", stats: "+5 LUCK", supply: 10 },
+        { id: 1, name: "CHRONOS_CIRCUIT", price: "0.1", type: "UPGRADE", thumb: `${IPFS_BASE}/1.png`, rarity: "UNCOMMON", stats: "+2 STYLE", supply: 100 },
+        { id: 2, name: "OLD_COMPUTER", price: "0.2", type: "EQUIPMENT", thumb: `${IPFS_BASE}/2.png`, rarity: "RARE", stats: "+8 INT", supply: 25 },
+        { id: 3, name: "DISCOVERED_PLANET", price: "0.5", type: "EQUIPMENT", thumb: `${IPFS_BASE}/3.png`, rarity: "UNCOMMON", stats: "+15 SCIENCE", supply: 50 },
+        { id: 4, name: "ANON", price: "1.0", type: "DATA", thumb: `${IPFS_BASE}/4.png`, rarity: "LEGENDARY", stats: "+5 AURA", supply: 9 },
     ];
-    
+
     const { data: hash, error, isPending, writeContract } = useWriteContract();
-    
+
     const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
         hash,
     });
 
     const CONTRACT_ADDRESS = "0x528d162254392ec91246221DEdeC4219E080Ef01";
     const ABI = [
-      {
-        "inputs": [
-          { "internalType": "uint256", "name": "id", "type": "uint256" },
-          { "internalType": "uint256", "name": "amount", "type": "uint256" }
-        ],
-        "name": "mint",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      }
+        {
+            "inputs": [
+                { "internalType": "uint256", "name": "id", "type": "uint256" },
+                { "internalType": "uint256", "name": "amount", "type": "uint256" }
+            ],
+            "name": "mint",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+        }
     ] as const;
 
     const handleMint = (item: typeof items[0]) => {
         if (!isConnected) return;
-        
+
         writeContract({
             address: CONTRACT_ADDRESS as `0x${string}`,
             abi: ABI,
@@ -60,7 +59,7 @@ export default function ShopPage() {
                     <p className="text-[10px] md:text-xs text-white/80 tracking-[0.5em] uppercase font-bold">The Science Merchant</p>
                     <span className="w-2 h-2 bg-neon-green animate-pulse"></span>
                 </div>
-                <div className="flex flex-col items-center gap-4">
+                <div className="flex flex-col items-center gap-12">
                     <GlitchText text="GEAR_SUPPLY" as="h1" className="text-fluid-hero tracking-tighter mix-blend-screen" />
                     <WalletButton />
                 </div>
@@ -79,10 +78,10 @@ export default function ShopPage() {
                     )}
                     {isSuccess && hash && (
                         <div className="bg-neon-green/20 border-2 border-neon-green px-4 py-2 text-neon-green">
-                            Mint Successful! 
-                            <a 
-                                href={`https://amoy.polygonscan.com/tx/${hash}`} 
-                                target="_blank" 
+                            Mint Successful!
+                            <a
+                                href={`https://amoy.polygonscan.com/tx/${hash}`}
+                                target="_blank"
                                 rel="noreferrer"
                                 className="ml-2 underline block mt-1"
                             >
@@ -98,8 +97,9 @@ export default function ShopPage() {
                 </div>
 
                 <p className="text-gray-500 max-w-3xl text-fluid-xs md:text-fluid-sm uppercase tracking-widest leading-loose">
-                    High-performance hardware for the modern tech wizard.
-                    All gear is authenticated by the Vinconium research sector.
+                    Mintable items for your research.
+                    All gear is authenticated by the Vinconium research sector.<br />
+                    (Run on chain Polygon Amoy (Testnet only))
                 </p>
             </header>
 
@@ -164,8 +164,8 @@ export default function ShopPage() {
                                         <span className="text-[8px] text-gray-500 uppercase font-bold mb-1">Value</span>
                                         <span className="text-white font-bold text-xl tracking-tighter">{item.price} POL</span>
                                     </div>
-                                    <PixelButton 
-                                        variant={isConnected ? "pink" : "retro"} 
+                                    <PixelButton
+                                        variant={isConnected ? "pink" : "retro"}
                                         className="text-[10px] py-1.5 px-6 whitespace-nowrap min-w-[120px]"
                                         onClick={() => handleMint(item)}
                                         disabled={isPending || isConfirming || !isConnected}
