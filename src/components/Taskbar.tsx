@@ -29,7 +29,11 @@ export function Taskbar() {
 
     const toolItems: ToolItem[] = [
         { label: 'TERMINAL', icon: '⌨', action: () => setIsTerminalOpen(true), color: 'neon' },
-        // { label: 'TOOLS 1 MISALNYA', icon: '⛏', href: '/tools/miner', color: 'pink' },
+        { label: 'BASE_EXPLORER', icon: '📦', href: '/tools/base-explorer', color: 'neon' },
+        { label: 'CYPHER_CRACKER', icon: '🔓', href: '/tools/cypher-cracker', color: 'pink' },
+        { label: 'HASH_LAB', icon: '🔑', href: '/tools/hash-lab', color: 'neon' },
+        { label: 'STEGO_WATCH', icon: '🖼', href: '/tools/stego-watch', color: 'pink' },
+        { label: 'PWN_HELPER', icon: '⚡', href: '/tools/pwn-helper', color: 'retro' },
     ];
 
     useEffect(() => {
