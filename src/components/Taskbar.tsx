@@ -34,6 +34,13 @@ export function Taskbar() {
         { label: 'HASH_LAB', icon: '🔑', href: '/tools/hash-lab', color: 'neon' },
         { label: 'STEGO_WATCH', icon: '🖼', href: '/tools/stego-watch', color: 'pink' },
         { label: 'PWN_HELPER', icon: '⚡', href: '/tools/pwn-helper', color: 'retro' },
+        { label: 'XOR_CRYPT', icon: '⊕', href: '/tools/xor-crypt', color: 'neon' },
+        { label: 'JWT_DECODER', icon: '🎫', href: '/tools/jwt-decoder', color: 'pink' },
+        { label: 'TEXT_TRANSFORM', icon: '✍️', href: '/tools/text-transform', color: 'retro' },
+        { label: 'REGEX_LAB', icon: '🔬', href: '/tools/regex-lab', color: 'neon' },
+        { label: 'IP_CALC', icon: '🌐', href: '/tools/ip-calc', color: 'pink' },
+        { label: 'PASS_GEN', icon: '🎲', href: '/tools/pass-gen', color: 'retro' },
+        { label: 'TIME_WIZARD', icon: '⏰', href: '/tools/time-wizard', color: 'neon' },
     ];
 
     useEffect(() => {
