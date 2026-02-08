@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Terminal } from './Terminal';
@@ -9,6 +9,8 @@ export function Taskbar() {
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+    const [isToolsOpen, setIsToolsOpen] = useState(false);
+    const toolsRef = useRef<HTMLDivElement>(null);
 
     const navItems = [
         { label: 'HOME', href: '/', color: 'neon', icon: '⌂' },
@@ -16,6 +18,29 @@ export function Taskbar() {
         { label: 'SHOP', href: '/shop', color: 'retro', icon: '🛒' },
         { label: 'WRITE UP', href: '/write-up', color: 'neon', icon: '📄' },
     ];
+
+    interface ToolItem {
+        label: string;
+        icon: string;
+        href?: string;
+        action?: () => void;
+        color?: string;
+    }
+
+    const toolItems: ToolItem[] = [
+        { label: 'TERMINAL', icon: '⌨', action: () => setIsTerminalOpen(true), color: 'neon' },
+        // { label: 'TOOLS 1 MISALNYA', icon: '⛏', href: '/tools/miner', color: 'pink' },
+    ];
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (toolsRef.current && !toolsRef.current.contains(event.target as Node)) {
+                setIsToolsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     return (
         <>
@@ -42,16 +67,32 @@ export function Taskbar() {
                                         </Link>
                                     ))}
                                     <div className="h-[1px] bg-white/10 my-1"></div>
-                                    <button
-                                        onClick={() => {
-                                            setIsTerminalOpen(true);
-                                            setIsMenuOpen(false);
-                                        }}
-                                        className="p-3 border-[length:var(--border-width)] border-transparent hover:border-black hover:bg-neon-green hover:text-black flex items-center gap-3 text-xs font-bold transition-all cursor-pointer"
-                                    >
-                                        <span className="text-lg">⌨</span>
-                                        TERMINAL
-                                    </button>
+                                    <div className="px-3 py-1 text-[8px] font-bold text-gray-500 uppercase tracking-widest">Tools</div>
+                                    {toolItems.map((tool) => (
+                                        tool.href ? (
+                                            <Link
+                                                key={tool.label}
+                                                href={tool.href}
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className={`p-3 border-[length:var(--border-width)] border-transparent hover:border-black hover:bg-white hover:text-black flex items-center gap-3 text-xs font-bold transition-all`}
+                                            >
+                                                <span className="text-lg">{tool.icon}</span>
+                                                {tool.label}
+                                            </Link>
+                                        ) : (
+                                            <button
+                                                key={tool.label}
+                                                onClick={() => {
+                                                    tool.action?.();
+                                                    setIsMenuOpen(false);
+                                                }}
+                                                className="p-3 border-[length:var(--border-width)] border-transparent hover:border-black hover:bg-neon-green hover:text-black flex items-center gap-3 text-xs font-bold transition-all cursor-pointer w-full text-left"
+                                            >
+                                                <span className="text-lg">{tool.icon}</span>
+                                                {tool.label}
+                                            </button>
+                                        )
+                                    ))}
                                 </div>
                             </div>
                         )}
@@ -94,12 +135,56 @@ export function Taskbar() {
                                     </Link>
                                 );
                             })}
-                            <button
-                                onClick={() => setIsTerminalOpen(true)}
-                                className="px-3 md:px-4 py-1.5 md:py-2 bg-black text-neon-green border-[length:var(--border-width)] border-black font-bold text-[10px] md:text-xs shadow-pixel-sm hover:bg-neon-green hover:text-black transition-all"
-                            >
-                                TERMINAL
-                            </button>
+                            <div className="relative h-full" ref={toolsRef}>
+                                <button
+                                    onClick={() => setIsToolsOpen(!isToolsOpen)}
+                                    className={`
+                                        px-3 md:px-4 h-full
+                                        bg-black text-neon-green border-[length:var(--border-width)] border-black 
+                                        font-bold text-[10px] md:text-xs shadow-pixel-sm 
+                                        hover:bg-neon-green hover:text-black transition-all
+                                        flex items-center gap-2
+                                        ${isToolsOpen ? 'bg-neon-green !text-black translate-y-[2px] shadow-none' : ''}
+                                    `}
+                                >
+                                    TOOLS <span className="text-[8px] opacity-50">{isToolsOpen ? '▲' : '▼'}</span>
+                                </button>
+
+                                {isToolsOpen && (
+                                    <div className="absolute top-[calc(100%+8px)] right-0 w-48 bg-pixel-gray border-[length:var(--border-width)] border-black shadow-pixel-lg p-1 animate-in slide-in-from-top-2 duration-200 z-50">
+                                        <div className="bg-black text-white p-2 text-[8px] mb-1 font-bold flex justify-between border-b-[length:var(--border-width)] border-white/10">
+                                            <span>SYSTEM_TOOLS</span>
+                                        </div>
+                                        <div className="flex flex-col gap-0.5">
+                                            {toolItems.map((tool) => (
+                                                tool.href ? (
+                                                    <Link
+                                                        key={tool.label}
+                                                        href={tool.href}
+                                                        onClick={() => setIsToolsOpen(false)}
+                                                        className="p-2 border-[length:var(--border-width)] border-transparent hover:border-black hover:bg-white hover:text-black flex items-center gap-2 text-[10px] font-bold transition-all text-white"
+                                                    >
+                                                        <span className="text-sm">{tool.icon}</span>
+                                                        {tool.label}
+                                                    </Link>
+                                                ) : (
+                                                    <button
+                                                        key={tool.label}
+                                                        onClick={() => {
+                                                            tool.action?.();
+                                                            setIsToolsOpen(false);
+                                                        }}
+                                                        className="p-2 border-[length:var(--border-width)] border-transparent hover:border-black hover:bg-neon-green hover:text-black flex items-center gap-2 text-[10px] font-bold transition-all cursor-pointer text-white w-full text-left"
+                                                    >
+                                                        <span className="text-sm">{tool.icon}</span>
+                                                        {tool.label}
+                                                    </button>
+                                                )
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         <div className="sm:hidden flex-1 px-4 text-center">
@@ -140,7 +225,7 @@ function Clock() {
         <div className="text-right border-l-[length:var(--border-width)] border-black/10 pl-2 md:pl-4">
             <p className="text-[7px] md:text-[8px] text-gray-500 font-bold uppercase">Time</p>
             <p className="text-[9px] md:text-xs font-mono text-white/90">
-                {mounted 
+                {mounted
                     ? `${time.getHours().toString().padStart(2, '0')}:${time.getMinutes().toString().padStart(2, '0')}`
                     : "--:--"
                 }
