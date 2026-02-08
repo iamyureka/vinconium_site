@@ -30,7 +30,7 @@ export function PixelGalaxy() {
     const timeRef = useRef<number>(0);
 
     const colors = {
-        background: "#0f0f1a",
+        background: "#090911ff",
         armLight: "#c8b8d0",
         armMid: "#8888aa",
         armDark: "#4a4a6a",
