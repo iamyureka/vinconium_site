@@ -23,7 +23,7 @@ export function Terminal({ onClose }: TerminalProps) {
 
     React.useEffect(() => {
         if (isEasterEgg) {
-            const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+            const audioCtx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
             const playSiren = () => {
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();

@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 import { HUD } from "@/components/HUD";
 import { Taskbar } from "@/components/Taskbar";
 import { fetchChannelStats } from "@/lib/youtube";
+import { Web3Provider } from "@/components/Web3Provider";
 
 export default async function RootLayout({
   children,
@@ -32,14 +33,16 @@ export default async function RootLayout({
       <body
         className={`${pressStart2P.variable} antialiased bg-deep-space text-white font-pixel relative min-h-screen overflow-x-hidden`}
       >
-        <div className="crt-overlay"></div>
-        <div className="crt-flicker fixed inset-0 pointer-events-none z-[9998] opacity-10"></div>
+        <Web3Provider>
+          <div className="crt-overlay"></div>
+          <div className="crt-flicker fixed inset-0 pointer-events-none z-[9998] opacity-10"></div>
 
-        <Taskbar />
-        <div className="pt-22 pb-32">
-          {children}
-        </div>
-        <HUD stats={stats} />
+          <Taskbar />
+          <div className="pt-22 pb-32">
+            {children}
+          </div>
+          <HUD stats={stats} />
+        </Web3Provider>
       </body>
     </html>
   );

@@ -128,8 +128,10 @@ export function Taskbar() {
 
 function Clock() {
     const [time, setTime] = React.useState(new Date());
+    const [mounted, setMounted] = React.useState(false);
 
     React.useEffect(() => {
+        setMounted(true);
         const timer = setInterval(() => setTime(new Date()), 10000);
         return () => clearInterval(timer);
     }, []);
@@ -138,7 +140,10 @@ function Clock() {
         <div className="text-right border-l-[length:var(--border-width)] border-black/10 pl-2 md:pl-4">
             <p className="text-[7px] md:text-[8px] text-gray-500 font-bold uppercase">Time</p>
             <p className="text-[9px] md:text-xs font-mono text-white/90">
-                {time.getHours().toString().padStart(2, '0')}:{time.getMinutes().toString().padStart(2, '0')}
+                {mounted 
+                    ? `${time.getHours().toString().padStart(2, '0')}:${time.getMinutes().toString().padStart(2, '0')}`
+                    : "--:--"
+                }
             </p>
         </div>
     );

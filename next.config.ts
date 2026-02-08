@@ -20,6 +20,10 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'cdn.discordapp.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'green-acute-bison-742.mypinata.cloud',
       }
     ],
   },
