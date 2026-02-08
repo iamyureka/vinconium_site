@@ -24,7 +24,7 @@ export default function ShopPage() {
         hash,
     });
 
-    const CONTRACT_ADDRESS = "0x528d162254392ec91246221DEdeC4219E080Ef01";
+    const CONTRACT_ADDRESS = "0x0510A4c9faA2D5F46b810FF993a4a9b016350Ffa";
     const ABI = [
         {
             "inputs": [
@@ -80,7 +80,7 @@ export default function ShopPage() {
                         <div className="bg-neon-green/20 border-2 border-neon-green px-4 py-2 text-neon-green">
                             Mint Successful!
                             <a
-                                href={`https://amoy.polygonscan.com/tx/${hash}`}
+                                href={`https://sepolia.etherscan.io/tx/${hash}`}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="ml-2 underline block mt-1"
@@ -162,7 +162,7 @@ export default function ShopPage() {
                                 <div className="flex justify-between items-center mt-auto gap-4 pt-6 border-t border-white/5">
                                     <div className="flex flex-col leading-none">
                                         <span className="text-[8px] text-gray-500 uppercase font-bold mb-1">Value</span>
-                                        <span className="text-white font-bold text-xl tracking-tighter">{item.price} POL</span>
+                                        <span className="text-white font-bold text-xl tracking-tighter">{item.price} ETH</span>
                                     </div>
                                     <PixelButton
                                         variant={isConnected ? "pink" : "retro"}
@@ -191,6 +191,6 @@ export default function ShopPage() {
                     <p className="text-gray-600 text-[10px] font-mono tracking-[0.3em] uppercase hidden lg:block">Vinconium_Marketplace_v.1.1</p>
                 </PixelCard>
             </footer>
-        </main>
+        </main >
     );
 }

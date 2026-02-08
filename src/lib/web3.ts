@@ -1,13 +1,13 @@
 import { http, createConfig } from 'wagmi'
-import { polygonAmoy } from 'wagmi/chains'
+import { sepolia } from 'wagmi/chains'
 import { getDefaultConfig } from 'connectkit'
 
 export const config = createConfig(
   getDefaultConfig({
     // Your dApps chains
-    chains: [polygonAmoy],
+    chains: [sepolia],
     transports: {
-      [polygonAmoy.id]: http('https://polygon-amoy.drpc.org'),
+      [sepolia.id]: http('https://ethereum-sepolia-rpc.publicnode.com'),
     },
 
     // Required API Keys
