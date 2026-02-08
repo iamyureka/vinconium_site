@@ -20,6 +20,7 @@ import { HUD } from "@/components/HUD";
 import { Taskbar } from "@/components/Taskbar";
 import { fetchChannelStats } from "@/lib/youtube";
 import { Web3Provider } from "@/components/Web3Provider";
+import { PixelGalaxy } from "@/components/PixelGalaxy";
 
 export default async function RootLayout({
   children,
@@ -34,6 +35,7 @@ export default async function RootLayout({
         className={`${pressStart2P.variable} antialiased bg-deep-space text-white font-pixel relative min-h-screen overflow-x-hidden`}
       >
         <Web3Provider>
+          <PixelGalaxy />
           <div className="crt-overlay"></div>
           <div className="crt-flicker fixed inset-0 pointer-events-none z-[9998] opacity-10"></div>
 
