@@ -1,4 +1,4 @@
-import { http, createConfig, fallback } from 'wagmi'
+import { http, createConfig } from 'wagmi'
 import { polygonAmoy } from 'wagmi/chains'
 import { getDefaultConfig } from 'connectkit'
 

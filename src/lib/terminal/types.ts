@@ -28,5 +28,5 @@ export type ActionType = 'OUTPUT' | 'CLEAR' | 'THEME' | 'EXIT' | 'EASTER_EGG';
 
 export interface CommandResult {
     type: ActionType;
-    value?: string[] | string | any;
+    value?: string[] | string | unknown;
 }

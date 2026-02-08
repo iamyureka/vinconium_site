@@ -28,7 +28,7 @@ export async function fetchLatestVideos(channelId: string): Promise<YouTubeVideo
 
         const entriesArray = Array.isArray(entries) ? entries : [entries];
 
-        return entriesArray.map((entry: any) => ({
+        return entriesArray.map((entry: any) => ({ // eslint-disable-line @typescript-eslint/no-explicit-any
             id: entry['yt:videoId'],
             title: entry.title,
             thumbnail: entry['media:group']['media:thumbnail'].url,
@@ -66,7 +66,7 @@ export function formatRelativeDate(dateStr: string): string {
     return 'TODAY';
 }
 
-export async function fetchChannelStats(channelId: string) {
+export async function fetchChannelStats(_channelId: string) { // eslint-disable-line @typescript-eslint/no-unused-vars
     try {
         const response = await fetch(`https://www.youtube.com/@vinconium`, {
             next: { revalidate: 3600 },

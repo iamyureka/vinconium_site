@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 export function HUD({ stats }: { stats?: { subscribers: string, totalViews: string, videoCount?: string } }) {
     const subscribers = stats?.subscribers || 'SCANNING...';
@@ -23,8 +24,13 @@ export function HUD({ stats }: { stats?: { subscribers: string, totalViews: stri
             }`}>
             <div className="flex justify-between items-center w-full max-w-7xl mx-auto pointer-events-auto gap-1">
                 <div className="flex items-center gap-1.5 bg-black/90 p-1.5 border-[length:var(--border-width)] border-white/10 shadow-pixel flex-1 md:flex-none">
-                    <div className="w-6 h-6 md:w-10 md:h-10 bg-neon-green/10 shrink-0">
-                        <img src="/logo.webp" alt="L" className="w-full h-full object-cover image-rendering-pixelated" />
+                    <div className="w-6 h-6 md:w-10 md:h-10 bg-neon-green/10 shrink-0 relative">
+                        <Image 
+                            src="/logo.webp" 
+                            alt="Vinconium Logo" 
+                            fill
+                            className="object-cover image-rendering-pixelated" 
+                        />
                     </div>
                     <div className="flex flex-col gap-0.5 overflow-hidden">
                         <span className="text-[8px] md:text-xs font-bold text-white truncate">VINCONIUM</span>

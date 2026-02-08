@@ -88,7 +88,7 @@ export default async function Home() {
                       I specialize in turning complex technological concepts and scientific mysteries into playful.
                     </p>
                     <div className="p-4 bg-black/40 border border-white/5 text-[10px] text-retro-yellow/80 leading-loose uppercase tracking-widest">
-                      "If it isn't playful, it isn't science."
+                      &quot;If it isn&apos;t playful, it isn&apos;t science.&quot;
                     </div>
                   </div>
                 </div>

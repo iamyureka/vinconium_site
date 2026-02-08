@@ -7,7 +7,7 @@ import Image from "next/image";
 import { WalletButton } from "@/components/WalletButton";
 import { useWriteContract, useWaitForTransactionReceipt, useAccount } from 'wagmi';
 import { parseEther } from 'viem';
-import React, { useState } from "react";
+import React from "react";
 
 export default function ShopPage() {
     const { isConnected } = useAccount();

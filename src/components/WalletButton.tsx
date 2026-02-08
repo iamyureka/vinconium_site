@@ -2,8 +2,6 @@
 
 import { ConnectKitButton } from 'connectkit'
 import { PixelButton } from './PixelButton'
-import { useAccount, useBalance } from 'wagmi'
-import { formatEther } from 'viem'
 import React from 'react'
 
 export const WalletButton = () => {
