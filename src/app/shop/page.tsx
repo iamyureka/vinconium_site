@@ -1,17 +1,55 @@
+'use client';
+
 import { GlitchText } from "@/components/GlitchText";
 import { PixelCard } from "@/components/PixelCard";
 import { PixelButton } from "@/components/PixelButton";
 import Image from "next/image";
+import { WalletButton } from "@/components/WalletButton";
+import { useWriteContract, useWaitForTransactionReceipt, useAccount } from 'wagmi';
+import { parseEther } from 'viem';
+import React, { useState } from "react";
 
 export default function ShopPage() {
+    const { isConnected } = useAccount();
+    const IPFS_BASE = "https://green-acute-bison-742.mypinata.cloud/ipfs/bafybeibosdxv6nwgrfkswczbff6ppelcoh6sv37gctg7qyrjbrqd2doani";
     const items = [
-        { name: "NEBULA_HOODIE_PRO", price: "55.00", type: "EQUIPMENT", thumb: "/project_1.png", rarity: "LEGENDARY", stats: "+15 SCIENCE" },
-        { name: "PIXEL_CAP_V2", price: "25.00", type: "UPGRADE", thumb: "/project_2.png", rarity: "COMMON", stats: "+2 STYLE" },
-        { name: "SCIENCE_POSTER_EXP", price: "30.00", type: "COLLECTIBLE", thumb: "/project_3.png", rarity: "RARE", stats: "+8 INT" },
-        { name: "VINCO_OS_USB", price: "15.00", type: "DATA", thumb: "/project_1.png", rarity: "UNCOMMON", stats: "+5 LUCK" },
-        { name: "CHRONO_DESK_MAT", price: "40.00", type: "EQUIPMENT", thumb: "/project_2.png", rarity: "EPIC", stats: "+12 FOCUS" },
-        { name: "DECRYPTION_TEE", price: "28.00", type: "EQUIPMENT", thumb: "/project_3.png", rarity: "RARE", stats: "+6 CHARM" },
+        { id: 1, name: "CHRONOS_DESK_MAT", price: "0.1", type: "UPGRADE", thumb: `${IPFS_BASE}/1.png`, rarity: "COMMON", stats: "+2 STYLE", supply: 100 },
+        { id: 2, name: "DECRYPTION_TEE", price: "0.2", type: "EQUIPMENT", thumb: `${IPFS_BASE}/2.png`, rarity: "RARE", stats: "+8 INT", supply: 50 },
+        { id: 3, name: "NEBULAX_HOODIE", price: "0.5", type: "EQUIPMENT", thumb: `${IPFS_BASE}/3.png`, rarity: "LEGENDARY", stats: "+15 SCIENCE", supply: 25 },
+        { id: 4, name: "VINCO_OS_USB", price: "1.0", type: "DATA", thumb: `${IPFS_BASE}/4.png`, rarity: "UNCOMMON", stats: "+5 LUCK", supply: 10 },
     ];
+    
+    const { data: hash, error, isPending, writeContract } = useWriteContract();
+    
+    const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
+        hash,
+    });
+
+    const CONTRACT_ADDRESS = "0x528d162254392ec91246221DEdeC4219E080Ef01";
+    const ABI = [
+      {
+        "inputs": [
+          { "internalType": "uint256", "name": "id", "type": "uint256" },
+          { "internalType": "uint256", "name": "amount", "type": "uint256" }
+        ],
+        "name": "mint",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+      }
+    ] as const;
+
+    const handleMint = (item: typeof items[0]) => {
+        if (!isConnected) return;
+        
+        writeContract({
+            address: CONTRACT_ADDRESS as `0x${string}`,
+            abi: ABI,
+            functionName: 'mint',
+            args: [BigInt(item.id), BigInt(1)],
+            value: parseEther(item.price),
+        });
+    };
 
     return (
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-8 md:gap-24 selection:bg-cyber-pink selection:text-white">
@@ -22,7 +60,43 @@ export default function ShopPage() {
                     <p className="text-[10px] md:text-xs text-white/80 tracking-[0.5em] uppercase font-bold">The Science Merchant</p>
                     <span className="w-2 h-2 bg-neon-green animate-pulse"></span>
                 </div>
-                <GlitchText text="GEAR_SUPPLY" as="h1" className="text-fluid-hero tracking-tighter mix-blend-screen" />
+                <div className="flex flex-col items-center gap-4">
+                    <GlitchText text="GEAR_SUPPLY" as="h1" className="text-fluid-hero tracking-tighter mix-blend-screen" />
+                    <WalletButton />
+                </div>
+
+                {/* Transaction Feedback */}
+                <div className="w-full max-w-md mt-4 font-bold text-[10px] uppercase">
+                    {isPending && (
+                        <div className="bg-blue-500/20 border-2 border-blue-500 px-4 py-2 text-blue-400 animate-pulse">
+                            Requesting signature...
+                        </div>
+                    )}
+                    {isConfirming && (
+                        <div className="bg-yellow-500/20 border-2 border-yellow-500 px-4 py-2 text-yellow-400 animate-pulse">
+                            Transaction confirming on-chain...
+                        </div>
+                    )}
+                    {isSuccess && hash && (
+                        <div className="bg-neon-green/20 border-2 border-neon-green px-4 py-2 text-neon-green">
+                            Mint Successful! 
+                            <a 
+                                href={`https://amoy.polygonscan.com/tx/${hash}`} 
+                                target="_blank" 
+                                rel="noreferrer"
+                                className="ml-2 underline block mt-1"
+                            >
+                                View Receipt on Explorer
+                            </a>
+                        </div>
+                    )}
+                    {error && (
+                        <div className="bg-cyber-pink/20 border-2 border-cyber-pink px-4 py-2 text-cyber-pink">
+                            Error: {error.message.includes('User rejected') ? 'Transaction Cancelled' : 'Minting Failed'}
+                        </div>
+                    )}
+                </div>
+
                 <p className="text-gray-500 max-w-3xl text-fluid-xs md:text-fluid-sm uppercase tracking-widest leading-loose">
                     High-performance hardware for the modern tech wizard.
                     All gear is authenticated by the Vinconium research sector.
@@ -54,6 +128,7 @@ export default function ShopPage() {
                                         src={item.thumb}
                                         alt={item.name}
                                         fill
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                         className="object-contain image-rendering-pixelated grayscale-50 group-hover:grayscale-0"
                                     />
                                 </div>
@@ -74,7 +149,10 @@ export default function ShopPage() {
                                 <div className="space-y-2">
                                     <div className="flex justify-between text-[10px] text-gray-500 uppercase">
                                         <span>Status:</span>
-                                        <span className="text-neon-green">IN_STOCK</span>
+                                        <div className="flex gap-2">
+                                            <span className="text-gray-600">LIMIT_{item.supply}</span>
+                                            <span className="text-neon-green">IN_STOCK</span>
+                                        </div>
                                     </div>
                                     <div className="h-1 bg-white/5 w-full">
                                         <div className="h-full bg-cyber-pink/40 w-full animate-pulse"></div>
@@ -84,9 +162,16 @@ export default function ShopPage() {
                                 <div className="flex justify-between items-center mt-auto gap-4 pt-6 border-t border-white/5">
                                     <div className="flex flex-col leading-none">
                                         <span className="text-[8px] text-gray-500 uppercase font-bold mb-1">Value</span>
-                                        <span className="text-white font-bold text-xl tracking-tighter">${item.price}</span>
+                                        <span className="text-white font-bold text-xl tracking-tighter">{item.price} POL</span>
                                     </div>
-                                    <PixelButton variant="pink" className="text-[10px] py-1.5 px-6 whitespace-nowrap">ADD_TO_INV</PixelButton>
+                                    <PixelButton 
+                                        variant={isConnected ? "pink" : "retro"} 
+                                        className="text-[10px] py-1.5 px-6 whitespace-nowrap min-w-[120px]"
+                                        onClick={() => handleMint(item)}
+                                        disabled={isPending || isConfirming || !isConnected}
+                                    >
+                                        {!isConnected ? 'CONNECT' : (isPending || isConfirming) ? 'MINTING...' : 'MINT_NFT'}
+                                    </PixelButton>
                                 </div>
                             </div>
                         </PixelCard>
