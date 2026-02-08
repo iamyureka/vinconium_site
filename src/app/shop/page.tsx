@@ -13,10 +13,10 @@ export default function ShopPage() {
     const { isConnected } = useAccount();
     const IPFS_BASE = "https://green-acute-bison-742.mypinata.cloud/ipfs/bafybeibosdxv6nwgrfkswczbff6ppelcoh6sv37gctg7qyrjbrqd2doani";
     const items = [
-        { id: 1, name: "CHRONOS_DESK_MAT", price: "0.1", type: "UPGRADE", thumb: `${IPFS_BASE}/1.png`, rarity: "COMMON", stats: "+2 STYLE", supply: 100 },
-        { id: 2, name: "DECRYPTION_TEE", price: "0.2", type: "EQUIPMENT", thumb: `${IPFS_BASE}/2.png`, rarity: "RARE", stats: "+8 INT", supply: 50 },
-        { id: 3, name: "NEBULAX_HOODIE", price: "0.5", type: "EQUIPMENT", thumb: `${IPFS_BASE}/3.png`, rarity: "LEGENDARY", stats: "+15 SCIENCE", supply: 25 },
-        { id: 4, name: "VINCO_OS_USB", price: "1.0", type: "DATA", thumb: `${IPFS_BASE}/4.png`, rarity: "UNCOMMON", stats: "+5 LUCK", supply: 10 },
+        { id: 1, name: "CHRONOS_DESK_MAT", price: "0.05", type: "UPGRADE", thumb: `${IPFS_BASE}/1.png`, rarity: "COMMON", stats: "+2 STYLE", supply: 100 },
+        { id: 2, name: "DECRYPTION_TEE", price: "0.1", type: "EQUIPMENT", thumb: `${IPFS_BASE}/2.png`, rarity: "RARE", stats: "+8 INT", supply: 50 },
+        { id: 3, name: "NEBULAX_HOODIE", price: "0.2", type: "EQUIPMENT", thumb: `${IPFS_BASE}/3.png`, rarity: "LEGENDARY", stats: "+15 SCIENCE", supply: 25 },
+        { id: 4, name: "VINCO_OS_USB", price: "0.5", type: "DATA", thumb: `${IPFS_BASE}/4.png`, rarity: "UNCOMMON", stats: "+5 LUCK", supply: 10 },
     ];
     
     const { data: hash, error, isPending, writeContract } = useWriteContract();
@@ -25,7 +25,7 @@ export default function ShopPage() {
         hash,
     });
 
-    const CONTRACT_ADDRESS = "0x528d162254392ec91246221DEdeC4219E080Ef01";
+    const CONTRACT_ADDRESS = "0x0510A4c9faA2D5F46b810FF993a4a9b016350Ffa";
     const ABI = [
       {
         "inputs": [
@@ -81,7 +81,7 @@ export default function ShopPage() {
                         <div className="bg-neon-green/20 border-2 border-neon-green px-4 py-2 text-neon-green">
                             Mint Successful! 
                             <a 
-                                href={`https://amoy.polygonscan.com/tx/${hash}`} 
+                                href={`https://sepolia.etherscan.io/tx/${hash}`} 
                                 target="_blank" 
                                 rel="noreferrer"
                                 className="ml-2 underline block mt-1"
@@ -162,7 +162,7 @@ export default function ShopPage() {
                                 <div className="flex justify-between items-center mt-auto gap-4 pt-6 border-t border-white/5">
                                     <div className="flex flex-col leading-none">
                                         <span className="text-[8px] text-gray-500 uppercase font-bold mb-1">Value</span>
-                                        <span className="text-white font-bold text-xl tracking-tighter">{item.price} POL</span>
+                                        <span className="text-white font-bold text-xl tracking-tighter">{item.price} ETH</span>
                                     </div>
                                     <PixelButton 
                                         variant={isConnected ? "pink" : "retro"} 
