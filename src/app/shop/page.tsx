@@ -12,10 +12,10 @@ export default function ShopPage() {
     const { isConnected } = useAccount();
     const IPFS_BASE = "https://green-acute-bison-742.mypinata.cloud/ipfs/bafybeibosdxv6nwgrfkswczbff6ppelcoh6sv37gctg7qyrjbrqd2doani";
     const items = [
-        { id: 1, name: "CHRONOS_CIRCUIT", price: "0.1", type: "UPGRADE", thumb: `${IPFS_BASE}/1.png`, rarity: "UNCOMMON", stats: "+2 STYLE", supply: 100 },
-        { id: 2, name: "OLD_COMPUTER", price: "0.2", type: "EQUIPMENT", thumb: `${IPFS_BASE}/2.png`, rarity: "RARE", stats: "+8 INT", supply: 25 },
-        { id: 3, name: "DISCOVERED_PLANET", price: "0.5", type: "EQUIPMENT", thumb: `${IPFS_BASE}/3.png`, rarity: "UNCOMMON", stats: "+15 SCIENCE", supply: 50 },
-        { id: 4, name: "ANON", price: "1.0", type: "DATA", thumb: `${IPFS_BASE}/4.png`, rarity: "LEGENDARY", stats: "+5 AURA", supply: 9 },
+        { id: 1, name: "CHRONOS_CIRCUIT", price: "1", type: "UPGRADE", thumb: `${IPFS_BASE}/1.png`, rarity: "UNCOMMON", stats: "+2 STYLE", supply: 100 },
+        { id: 2, name: "OLD_COMPUTER", price: "2", type: "EQUIPMENT", thumb: `${IPFS_BASE}/2.png`, rarity: "RARE", stats: "+8 INT", supply: 25 },
+        { id: 3, name: "DISCOVERED_PLANET", price: "5", type: "EQUIPMENT", thumb: `${IPFS_BASE}/3.png`, rarity: "UNCOMMON", stats: "+15 SCIENCE", supply: 50 },
+        { id: 4, name: "ANON", price: "10", type: "DATA", thumb: `${IPFS_BASE}/4.png`, rarity: "LEGENDARY", stats: "+5 AURA", supply: 9 },
     ];
 
     const { data: hash, error, isPending, writeContract } = useWriteContract();
@@ -99,7 +99,7 @@ export default function ShopPage() {
                 <p className="text-gray-500 max-w-3xl text-fluid-xs md:text-fluid-sm uppercase tracking-widest leading-loose">
                     Mintable items for your research.
                     All gear is authenticated by the Vinconium research sector.<br />
-                    (Run on chain Polygon Amoy (Testnet only))
+                    (Run on chain Ethereum Spoila (Testnet only))
                 </p>
             </header>
 
