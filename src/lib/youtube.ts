@@ -65,38 +65,3 @@ export function formatRelativeDate(dateStr: string): string {
     if (diffInDays > 0) return `${diffInDays}D AGO`;
     return 'TODAY';
 }
-
-export async function fetchChannelStats(_channelId: string) { // eslint-disable-line @typescript-eslint/no-unused-vars
-    try {
-        const response = await fetch(`https://www.youtube.com/@vinconium`, {
-            next: { revalidate: 3600 },
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-            }
-        });
-
-        if (!response.ok) throw new Error('Failed to fetch channel page');
-        const html = await response.text();
-
-        const subMatch = html.match(/"text":\s?\{\s?"content":\s?"([\d.kKmM]+)\s+subscribers"/) ||
-            html.match(/"accessibilityLabel":\s?"([\d.kKmM]+)\s+subscribers"/);
-
-        const videoMatch = html.match(/"text":\s?\{\s?"content":\s?"([\d,.]+)\s+videos"/);
-
-        const viewMatch = html.match(/"viewCountText":\s?\{\s?"simpleText":\s?"(.*?)"\}/) ||
-            html.match(/"text":\s?"([\d,.]+)\s+views"/);
-
-        const subscribers = subMatch ? subMatch[1].toUpperCase() : 'SCANNING...';
-        const videoCount = videoMatch ? videoMatch[1] : '---';
-        const totalViews = viewMatch ? formatViews(viewMatch[1].replace(/[^\d]/g, '')) : 'SCANNING...';
-
-        return {
-            subscribers,
-            totalViews,
-            videoCount
-        };
-    } catch (error) {
-        console.error('Error fetching YouTube stats:', error);
-        return { subscribers: 'OFFLINE', totalViews: 'OFFLINE', videoCount: '---' };
-    }
-}

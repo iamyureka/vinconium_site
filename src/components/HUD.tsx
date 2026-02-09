@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { User } from '@/lib/user';
 
-export function HUD({ stats }: { stats?: { subscribers: string, totalViews: string, videoCount?: string } }) {
-    const subscribers = stats?.subscribers || 'SCANNING...';
-    const videoCount = stats?.videoCount || '---';
+export function HUD({ stats }: { stats: User }) {
+    const name = stats.name;
+    // const username = stats.username;
+    const coin = stats.coin;
+    const level = Math.floor((Math.sqrt(8 * Math.sqrt(stats.xp) + 1) - 1) / 2)+1;
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
@@ -33,7 +36,7 @@ export function HUD({ stats }: { stats?: { subscribers: string, totalViews: stri
                         />
                     </div>
                     <div className="flex flex-col gap-0.5 overflow-hidden">
-                        <span className="text-[8px] md:text-xs font-bold text-white truncate">VINCONIUM</span>
+                        <span className="text-[8px] md:text-xs font-bold text-white truncate">{name}</span>
                         <div className="w-16 sm:w-24 md:w-40 h-1 bg-white/10">
                             <div className="bg-neon-green h-full" style={{ width: '85%' }}></div>
                         </div>
@@ -43,12 +46,12 @@ export function HUD({ stats }: { stats?: { subscribers: string, totalViews: stri
                 <div className="flex items-center gap-2 sm:gap-6 bg-black/90 p-1.5 sm:p-2 border-[length:var(--border-width)] border-white/10 shadow-pixel">
                     <div className="flex gap-2 sm:gap-4 items-center">
                         <div className="text-right">
-                            <p className="text-[6px] sm:text-[7px] text-gray-500 font-bold uppercase">VID</p>
-                            <p className="text-[8px] sm:text-[9px] text-retro-yellow font-bold leading-none">{videoCount}</p>
+                            <p className="text-[6px] sm:text-[7px] text-gray-500 font-bold uppercase">COIN</p>
+                            <p className="text-[8px] sm:text-[9px] text-retro-yellow font-bold leading-none">{coin}</p>
                         </div>
                         <div className="text-right border-l border-white/20 pl-2 sm:pl-4">
-                            <p className="text-[6px] sm:text-[7px] text-gray-500 font-bold uppercase">SUBS</p>
-                            <p className="text-[8px] sm:text-[9px] text-white font-bold leading-none">{subscribers}</p>
+                            <p className="text-[6px] sm:text-[7px] text-gray-500 font-bold uppercase">LEVEL</p>
+                            <p className="text-[8px] sm:text-[9px] text-white font-bold leading-none">{level}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-1.5 sm:gap-2 border-l border-white/20 pl-2 sm:pl-4">
