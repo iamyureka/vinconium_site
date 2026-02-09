@@ -1,8 +1,7 @@
 import type { NextConfig } from "next";
-import createMDX from '@next/mdx';
 
 const nextConfig: NextConfig = {
-  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
   images: {
     remotePatterns: [
       {
@@ -27,6 +26,14 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+  // webpack: (config) => {
+  //   config.externals.push("@sphereon/isomorphic-argon2");
+  //   return config;
+  // },
+  serverExternalPackages: ["@sphereon/isomorphic-argon2"],
+  experimental: {
+    useWasmBinary: true
+  }
 };
 
-export default createMDX()(nextConfig);
+export default nextConfig;

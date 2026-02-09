@@ -23,6 +23,7 @@ smart-contract/
 
 # production
 /build
+/_serverjs
 
 # misc
 .DS_Store

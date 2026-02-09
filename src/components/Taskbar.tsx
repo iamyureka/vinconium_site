@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Terminal } from './Terminal';
+import { getUsername } from '@/lib/user';
 
 export function Taskbar() {
     const pathname = usePathname();
@@ -25,6 +26,13 @@ export function Taskbar() {
         href?: string;
         action?: () => void;
         color?: string;
+    }
+
+    if(!getUsername() && navItems.find(v => v.href != '/signin')){
+        navItems.unshift({ label: 'SIGN IN', href: '/signin', color: 'neon', icon: '🔓' })
+    }
+    else if(navItems.find(v => v.href != '/logout')){
+        navItems.unshift({ label: 'LOGOUT', href: '/logout', color: 'neon', icon: '🔒' })
     }
 
     const toolItems: ToolItem[] = [

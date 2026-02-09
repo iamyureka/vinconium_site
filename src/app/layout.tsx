@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+'use client'
+
 import { Press_Start_2P } from "next/font/google";
 import "./globals.css";
 
@@ -8,26 +9,24 @@ const pressStart2P = Press_Start_2P({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Vinconium | Tech & Science",
-  description: "Playful technology and science with Vinconium",
-  icons: {
-    icon: "/logo.webp",
-  },
-};
-
 import { HUD } from "@/components/HUD";
 import { Taskbar } from "@/components/Taskbar";
-import { fetchChannelStats } from "@/lib/youtube";
+import { emptyUser, getUsername, getUserStats } from "@/lib/user";
 import { Web3Provider } from "@/components/Web3Provider";
 import { PixelGalaxy } from "@/components/PixelGalaxy";
+import { useEffect, useState } from "react";
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const stats = await fetchChannelStats("UCmOnc4ziXeC9zH7KdiRUg9Q");
+  const [stats, setStats] = useState(emptyUser)
+  useEffect(() => {
+    const username = getUsername() || ''
+    getUserStats(username).then(v => setStats(v))
+
+  }, [])
 
   return (
     <html lang="en" className="scroll-smooth overflow-x-hidden">
