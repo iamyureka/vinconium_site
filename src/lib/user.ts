@@ -1,9 +1,9 @@
 import { deleteCredentials, generateChallenge, signRequest, solveChallenge } from "syasym/dist/client"
 import { ActiveChallenge, EpKey } from "syasym/dist/types"
 
-const HOSTNAME = process.env.HOSTNAME || 'http://localhost:4000'
+const HOSTNAME = process.env.NEXT_PUBLIC_HOSTNAME || 'http://localhost:4000'
 
-export interface User{
+export interface User {
     name: string
     username: string
     coin: number
@@ -18,28 +18,28 @@ export const emptyUser: User = {
 }
 
 export const getUsername = (): string | null => {
-  if (typeof window !== 'undefined') {
-    return sessionStorage.getItem('username') || localStorage.getItem('username');
-  }
-  return null;
-};   
+    if (typeof window !== 'undefined') {
+        return sessionStorage.getItem('username') || localStorage.getItem('username');
+    }
+    return null;
+};
 
-export async function getUserStats(username: string): Promise<User>{
-    try{
+export async function getUserStats(username: string): Promise<User> {
+    try {
         console.log(username)
 
-        if(!username){
+        if (!username) {
             return emptyUser
         }
 
         const headers = await signRequest('POST', '/get-user')
-        if(!headers){
+        if (!headers) {
             deleteCredentials()
             location.reload()
             return emptyUser
         }
 
-        const res = await fetch(HOSTNAME+'/get-user', {
+        const res = await fetch(HOSTNAME + '/get-user', {
             method: 'POST',
             headers: headers
         })
@@ -49,24 +49,24 @@ export async function getUserStats(username: string): Promise<User>{
         }
 
         console.log(data)
-        if(data.message == 'User Not Found'){
+        if (data.message == 'User Not Found') {
             deleteCredentials()
             return emptyUser
         }
-        else if(!data.user){
+        else if (!data.user) {
             return emptyUser
         }
 
         return data.user
     }
-    catch(err){
+    catch (err) {
         return emptyUser
     }
 }
 
-export async function signin(username: string, password: string, remember: boolean){
-    try{
-        const res = await fetch(HOSTNAME+'/get-challenge?username='+username)
+export async function signin(username: string, password: string, remember: boolean) {
+    try {
+        const res = await fetch(HOSTNAME + '/get-challenge?username=' + username)
         const data = await res.json() as {
             pubKey?: string
             epKey?: EpKey
@@ -74,11 +74,11 @@ export async function signin(username: string, password: string, remember: boole
         }
         console.log(data)
 
-        if(data.pubKey && data.epKey){
+        if (data.pubKey && data.epKey) {
             const challenge = await solveChallenge(username, data.message, data.pubKey, data.epKey, password, remember)
-            if(!challenge) return { message: 'invalid password' }
-            else{
-                const res2 = await fetch(HOSTNAME+'/signin', {
+            if (!challenge) return { message: 'invalid password' }
+            else {
+                const res2 = await fetch(HOSTNAME + '/signin', {
                     method: 'POST',
                     headers: {
                         "Content-Type": 'application/json',
@@ -96,19 +96,19 @@ export async function signin(username: string, password: string, remember: boole
                 console.log(data2)
 
                 return data2
-            }      
+            }
         }
         else return data
     }
-    catch(err){
+    catch (err) {
         return { message: 'null' }
     }
 }
 
 export async function signup(username: string, name: string, password: string) {
-    try{
+    try {
         const challenge = await generateChallenge(username, password)
-        const res = await fetch(HOSTNAME+'/signup', {
+        const res = await fetch(HOSTNAME + '/signup', {
             method: 'POST',
             headers: {
                 "Content-Type": 'application/json',
@@ -124,7 +124,7 @@ export async function signup(username: string, name: string, password: string) {
 
         return data
     }
-    catch(err){
+    catch (err) {
         return { username: null, message: 'null' }
     }
 }
